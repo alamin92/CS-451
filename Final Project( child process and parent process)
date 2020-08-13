@@ -1,0 +1,78 @@
+
+#include <stdio.h>
+#include <time.h>
+#include<string.h>
+#include<sys/file.h>
+#include<stdlib.h>
+
+
+int count(const char* fc,int arr[])
+{
+//double x,y,z;
+//x= clock();
+FILE* fp = fopen (fc, "r");
+int i = 0;
+int inc = 0;
+fscanf (fp, "%d", &i);
+while (!feof (fp))
+{
+arr[inc++]=i;
+fscanf (fp, "%d", &i);
+}
+//y = clock();
+//z =(y-x)/CLOCKS_PER_SEC;
+//printf("\n\n TIME TOOK : %1f" , z);
+printf("\n\n");
+fclose (fp);
+return inc;
+
+}
+int main()
+{
+  int state;
+double x,y,z,p,q,r;
+int pid;
+
+int i,j,arr[100000];
+p=clock();
+pid = fork();
+x= clock();
+
+if(pid==0){
+
+
+int inc=count("numbers_for_pro1.dat",arr);
+for(i=0;i<inc;i++)
+{
+int sum=0;
+printf("%d Step\n",i+1);
+for(j=i;j<inc;j++)
+{
+sum=0;
+sum=arr[i]+arr[j];
+printf("\n Additive sum is: %d+ %d =%d\n ", sum);
+}
+printf("\n");
+}
+
+y = clock();
+z =(y-x)/CLOCKS_PER_SEC;
+printf("\n\n TIME TOOK for childs : %1f" , z);
+printf("\n");
+_exit(0);
+_exit(0);
+}
+else if (pid <0)
+{ fprintf(stderr,"\tfork failed\n\n");
+exit(1);
+}
+wait(&state);
+q=clock();
+r=(q-p)/CLOCKS_PER_SEC;
+
+printf("\n\nTime took  for parents : %1f", r);
+printf("\n\n");
+printf("the state value is: %d\n", state);
+
+return 0;
+}
